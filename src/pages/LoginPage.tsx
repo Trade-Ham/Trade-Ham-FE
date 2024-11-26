@@ -1,9 +1,13 @@
 import React from "react";
-import kakaoLoginButton from "../../public/assets/images/kakao_login_medium_narrow.png";
+import kakaoLoginButton from "/assets/images/kakao_login_medium_narrow.png";
 
 const LoginPage = () => {
+  const backendDomain = import.meta.env.VITE_BACKEND_DOMAIN;
 
-  
+  const handleKakaoLogin = () => {
+    const kakaoLoginUrl = `${backendDomain}/oauth2/authorization/kakao`;
+    window.location.href = kakaoLoginUrl;
+  };
 
   return (
     <div className="flex items-center v-screen w-full">
@@ -17,7 +21,7 @@ const LoginPage = () => {
           <div className="flex items-center justify-center mt-5">
             <button
               type="button"
-              onClick={() => console.log("Kakao 로그인 버튼 클릭!")}
+              onClick={handleKakaoLogin}
               className="p-0 m-0 border-none bg-transparent"
             >
               <img
