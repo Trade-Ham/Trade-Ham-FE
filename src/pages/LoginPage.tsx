@@ -1,10 +1,12 @@
 import React, { useEffect, useCallback, useState } from "react";
 import axios, { AxiosError } from "axios";
 import kakaoLoginButton from "/assets/images/kakao_login_medium_narrow.png";
+import { useAuthStore } from "../store/AuthStore"; // zustand 스토어 임포트
 
 const LoginPage = () => {
   const backendDomain = import.meta.env.VITE_BACKEND_DOMAIN;
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+  const setReissueResponse = useAuthStore((state) => state.setReissueResponse); // Zustand 상태 함수
 
   const handleKakaoLogin = () => {
     const kakaoLoginUrl = `${backendDomain}/oauth2/authorization/kakao`;
@@ -41,6 +43,9 @@ const LoginPage = () => {
         );
         console.log("Polling response:", response.data);
 
+        // Zustand 상태에 응답 데이터 저장
+        setReissueResponse(response.data);
+
         if (response.data.status === "SUCCESS") {
           clearInterval(intervalId);
           console.log("Polling stopped successfully.");
@@ -55,7 +60,7 @@ const LoginPage = () => {
         }
       }
     }, 1000); // 1초 간격
-  }, [backendDomain]);
+  }, [backendDomain, setReissueResponse]);
 
   useEffect(() => {
     // 컴포넌트 로드 시 로그인 상태 확인
