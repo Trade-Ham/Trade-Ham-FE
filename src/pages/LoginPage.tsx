@@ -1,13 +1,73 @@
-import React from "react";
+import React, { useEffect, useCallback, useState } from "react";
+import axios, { AxiosError } from "axios";
 import kakaoLoginButton from "/assets/images/kakao_login_medium_narrow.png";
 
 const LoginPage = () => {
   const backendDomain = import.meta.env.VITE_BACKEND_DOMAIN;
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
 
   const handleKakaoLogin = () => {
     const kakaoLoginUrl = `${backendDomain}/oauth2/authorization/kakao`;
     window.location.href = kakaoLoginUrl;
   };
+
+  const checkLoginStatus = useCallback(async () => {
+    try {
+      const response = await axios.get(`${backendDomain}/api/v1/auth/check`, {
+        withCredentials: true, // 쿠키 기반 세션 확인
+      });
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+        console.log("User is logged in.");
+      }
+    } catch (error) {
+      console.error("Login status check failed:", error);
+    }
+  }, [backendDomain]);
+
+  const startPolling = useCallback(() => {
+    const pollingUrl = `${backendDomain}/api/v1/auth/reissue`;
+
+    const intervalId = setInterval(async () => {
+      try {
+        const response = await axios.post(
+          pollingUrl,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Polling response:", response.data);
+
+        if (response.data.status === "SUCCESS") {
+          clearInterval(intervalId);
+          console.log("Polling stopped successfully.");
+        }
+      } catch (err) {
+        const error = err as AxiosError; // Type assertion
+        console.error("Polling error:", error);
+
+        if (error.response?.status === 401) {
+          clearInterval(intervalId);
+          console.log("Polling stopped due to error.");
+        }
+      }
+    }, 1000); // 1초 간격
+  }, [backendDomain]);
+
+  useEffect(() => {
+    // 컴포넌트 로드 시 로그인 상태 확인
+    checkLoginStatus();
+  }, [checkLoginStatus]);
+
+  useEffect(() => {
+    // 로그인 상태가 true일 때만 polling 시작
+    if (isLoggedIn) {
+      startPolling();
+    }
+  }, [isLoggedIn, startPolling]);
 
   return (
     <div className="flex items-center v-screen w-full">
