@@ -1,46 +1,46 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
+
 const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
-function addVariablesForColors({ addBase, theme }) {
-  // 사용자 정의 색상 + 기본 색상 병합
-  let allColors = flattenColorPalette(theme("colors"));
-  let customVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  // :root에 CSS 변수 추가
-  addBase({
-    ":root": customVars,
-  });
-}
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
-  ],
+  content: ["./src/**/*.{ts,tsx}"],
   darkMode: "class",
   theme: {
     extend: {
-      colors: {
-        transparent: "transparent",
-        current: "currentColor",
-        white: "#ffffff",
-        primary_text: "#212121",
-        secondary_text: "#757575",
-        error_text: "#ff2400",
-        primary_color: "#2196f3",
-        light_primary_color: "#bbdefb",
-        dark_primary_color: "#1976d2",
-        divider: "#bdbdbd",
-        folder_color: "#ebc351",
+      boxShadow: {
+        input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
+      },
+      animation: {
+        spotlight: "spotlight 2s ease .75s 1 forwards",
+      },
+      keyframes: {
+        spotlight: {
+          "0%": {
+            opacity: 0,
+            transform: "translate(-72%, -62%) scale(0.5)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translate(-50%,-40%) scale(1)",
+          },
+        },
       },
     },
   },
   plugins: [addVariablesForColors],
 };
+
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}
