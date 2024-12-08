@@ -79,7 +79,7 @@ const LoginPage = () => {
       <div className="flex justify-center w-screen">
         <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <br></br>
-          <label className="block text-primary_text text-xl font-bold mb-2 flex justify-center">
+          <label className="block text-[#121212] text-xl font-bold mb-2 flex justify-center">
             로그인
           </label>
           <br></br>

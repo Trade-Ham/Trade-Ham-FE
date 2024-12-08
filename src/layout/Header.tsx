@@ -3,7 +3,7 @@ import { IoPersonOutline } from "react-icons/io5";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [notificationCount, setNotificationCount] = useState(202); // 알림 개수
+  const [notificationCount] = useState(202); // 알림 개수
 
   const handleProfileClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-screen bg-[#FFD60A] flex items-center justify-between px-6 py-4 shadow-md">
+    <header className="w-full bg-[#FFD60A] flex items-center justify-between px-6 py-4 shadow-md">
       {/* 로고 */}
       <div className="flex items-center">
         <div className="h-16 flex items-center justify-center text-lg font-bold text-[#003566]">
