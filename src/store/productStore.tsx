@@ -11,6 +11,7 @@ interface Product {
   view: number;
   like: number;
   isLiked: boolean;
+  content?: () => JSX.Element; // description을 매핑한 필드
 }
 
 interface ProductState {
@@ -18,6 +19,7 @@ interface ProductState {
   fetchProducts: () => Promise<void>;
 }
 
+// transformProducts 함수: description을 content로 매핑
 function transformProducts(products: Product[]): Product[] {
   return products.map((product) => ({
     ...product,
@@ -25,6 +27,7 @@ function transformProducts(products: Product[]): Product[] {
   }));
 }
 
+// Zustand Store
 export const useProductStore = create<ProductState>((set) => ({
   products: [
     {
@@ -47,13 +50,15 @@ export const useProductStore = create<ProductState>((set) => ({
       like: 10,
       isLiked: false,
     },
-    // ... 더미 데이터 추가
+    // ... 추가 더미 데이터
   ],
   fetchProducts: async () => {
     try {
       // Access token 가져오기
       const { reissueResponse } = useAuthStore.getState();
-      const accessToken = reissueResponse?.access;
+      const accessToken = reissueResponse?.access || ""; // Access token이 없으면 빈 문자열 사용
+
+      console.log("Making API call with access token:", accessToken);
 
       // API 호출
       const response = await axios.get(
@@ -61,21 +66,19 @@ export const useProductStore = create<ProductState>((set) => ({
         {
           headers: {
             "Content-Type": "application/json",
-            access: accessToken || "",
+            access: accessToken,
           },
         }
       );
 
+      console.log("API response:", response);
+
       const data = response.data.data;
 
+      // 데이터 변환 및 상태 업데이트
       const transformedData = transformProducts(data);
       set({
         products: transformedData,
-      });
-
-      // Zustand 상태 업데이트
-      set({
-        products: data,
       });
     } catch (error) {
       console.error("Failed to fetch products:", error);

@@ -60,9 +60,6 @@ export function GridCard() {
               }}
               exit={{
                 opacity: 0,
-                transition: {
-                  duration: 0.05,
-                },
               }}
               className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
               onClick={() => setActive(null)}
@@ -94,10 +91,10 @@ export function GridCard() {
                       {active.name}
                     </motion.h3>
                     <motion.p
-                      layoutId={`description-${active.productId}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-base"
+                      layoutId={`price-${active.productId}-${id}`}
+                      className="font-medium text-neutral-600 dark:text-neutral-400 text-base"
                     >
-                      {active.description}
+                      ₩{active.price}
                     </motion.p>
                   </div>
 
@@ -113,6 +110,17 @@ export function GridCard() {
                     {active.ctaText}
                   </motion.a>
                 </div>
+
+                {/* Description 추가 */}
+                <div className="pt-4 px-4">
+                  <motion.p
+                    layoutId={`description-${active.productId}-${id}`}
+                    className="text-neutral-600 dark:text-neutral-400 text-sm md:text-base"
+                  >
+                    {active.description}
+                  </motion.p>
+                </div>
+
                 <div className="pt-4 relative px-4">
                   <motion.div
                     layout
@@ -157,10 +165,10 @@ export function GridCard() {
                   {card.name}
                 </motion.h3>
                 <motion.p
-                  layoutId={`description-${card.productId}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
+                  layoutId={`price-${card.productId}-${id}`}
+                  className="font-medium text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
                 >
-                  {card.description}
+                  ₩{card.price}
                 </motion.p>
               </div>
             </div>
@@ -180,9 +188,7 @@ export const CloseIcon = () => {
       animate={{
         opacity: 1,
       }}
-      exit={{
-        opacity: 0,
-      }}
+      exit={{ opacity: 0 }}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
