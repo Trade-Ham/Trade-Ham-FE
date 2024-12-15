@@ -3,6 +3,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../hooks/use-outside-click";
 import { useFavoriteStore } from "../store/favoriteStore";
+import { FavoriteProduct } from "../types/types";
 
 export function FavoriteGridCard() {
   const [active, setActive] = useState<FavoriteProduct | null>(null);

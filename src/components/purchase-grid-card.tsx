@@ -3,6 +3,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../hooks/use-outside-click";
 import { usePurchaseStore } from "../store/purchaseStore";
+import { PurchaseProduct } from "../types/types";
 
 export function PurchaseHistoryGridCard() {
   const [active, setActive] = useState<PurchaseProduct | null>(null); // 선택된 상품

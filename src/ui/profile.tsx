@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   // 예시 사용자 정보 (백엔드나 상태 관리에서 가져올 수 있음)
   const userInfo = {
     name: "Bruce Kim",
@@ -27,8 +29,14 @@ const Profile = () => {
 
       {/* 버튼 그룹 */}
       <div className="mt-8 flex space-x-4">
-        <button className="px-6 py-2 bg-red-500 text-white text-lg font-bold rounded-full shadow-md hover:bg-red-600">
-          로그아웃
+        <button className="px-6 py-2 bg-blue-500 text-white text-lg font-bold rounded-full shadow-md transition ease-in hover:bg-blue-600">
+          물건 등록
+        </button>
+        <button
+          className="px-6 py-2 bg-green-500 text-white text-lg font-bold rounded-full shadow-md transition ease-in hover:bg-green-600"
+          onClick={() => navigate("/registration")}
+        >
+          판매자 등록
         </button>
       </div>
     </div>

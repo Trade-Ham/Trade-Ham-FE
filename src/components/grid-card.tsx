@@ -3,9 +3,10 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../hooks/use-outside-click";
 import { useProductStore } from "../store/productStore";
+import { Product } from "../types/types";
 
 export function GridCard() {
-  const [active, setActive] = useState<PurchaseProduct | boolean | null>(null); // Product 타입 사용
+  const [active, setActive] = useState<Product | boolean | null>(null); // Product 타입 사용
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
 

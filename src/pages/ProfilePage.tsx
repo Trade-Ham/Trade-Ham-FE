@@ -5,7 +5,7 @@ import { SellHistoryGridCard } from "../components/sell-grid-card";
 import { FavoriteGridCard } from "../components/favorite-grid-card";
 import Profile from "../ui/profile";
 
-const MainPage = () => {
+const ProfilePage = () => {
   return (
     <div className="w-screen h-screen flex flex-col box-border overflow-x-hidden">
       {/* Header */}
@@ -40,4 +40,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default ProfilePage;

@@ -3,6 +3,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../hooks/use-outside-click";
 import { useSellStore } from "../store/sellStore";
+import { SellProduct } from "../types/types";
 
 export function SellHistoryGridCard() {
   const [active, setActive] = useState<SellProduct | null>(null); // 선택된 상품
@@ -98,7 +99,7 @@ export function SellHistoryGridCard() {
                     layoutId={`status-${active.product_id}-${id}`}
                     className="px-4 py-1 text-sm rounded-full font-bold bg-blue-500 text-white"
                   >
-                    {active.status}
+                    수정
                   </motion.p>
                 </div>
 

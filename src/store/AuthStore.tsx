@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 // reissue API 응답 타입 정의
 interface ReissueResponse {
-  access: string;
+  access?: string | null;
 }
 
 // Zustand 상태 타입 정의
@@ -12,6 +12,6 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  reissueResponse: null,
+  reissueResponse: {},
   setReissueResponse: (data) => set({ reissueResponse: data }),
 }));
