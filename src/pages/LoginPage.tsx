@@ -27,52 +27,60 @@ const LoginPage = () => {
     }
   }, [backendDomain]);
 
-  const startPolling = useCallback(() => {
-    const pollingUrl = `${backendDomain}/api/v1/auth/reissue`;
+  // const startPolling = useCallback(() => {
+  //   const pollingUrl = `${backendDomain}/api/v1/auth/access`;
 
-    const intervalId = setInterval(async () => {
-      try {
-        const response = await axios.post(
-          pollingUrl,
-          {},
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log("Polling response:", response.data);
+  //   // Axios 요청 인터셉터 추가
+  //   axios.interceptors.request.use((config) => {
+  //     console.log("Request Headers:", config.headers); // 요청 헤더 로그 찍기
+  //     return config; // 요청이 실제로 보내지도록 config를 반환
+  //   });
 
-        // Zustand 상태에 응답 데이터 저장
-        setReissueResponse(response.data);
+  //   const intervalId = setInterval(async () => {
+  //     try {
+  //       const response = await axios.post(
+  //         pollingUrl,
+  //         { access: null },
+  //         {
+  //           // access를 null로 설정
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       console.log("Polling response:", response.data);
 
-        if (response.data.status === "SUCCESS") {
-          clearInterval(intervalId);
-          console.log("Polling stopped successfully.");
-        }
-      } catch (err) {
-        const error = err as AxiosError; // Type assertion
-        console.error("Polling error:", error);
+  //       // Zustand 상태에 응답 데이터 저장
+  //       setReissueResponse(response.data);
 
-        if (error.response?.status === 401) {
-          clearInterval(intervalId);
-          console.log("Polling stopped due to error.");
-        }
-      }
-    }, 1000); // 1초 간격
-  }, [backendDomain, setReissueResponse]);
+  //       if (response.data.status === "SUCCESS") {
+  //         clearInterval(intervalId);
+  //         console.log("Polling stopped successfully.");
+  //       }
+  //     } catch (err) {
+  //       const error = err as AxiosError;
+  //       console.error("Polling error:", error);
 
-  useEffect(() => {
-    // 컴포넌트 로드 시 로그인 상태 확인
-    checkLoginStatus();
-  }, [checkLoginStatus]);
+  //       if (error.response?.status === 401) {
+  //         clearInterval(intervalId);
+  //         console.log("Polling stopped due to error.");
+  //       }
+  //     }
+  //   }, 1000); // 1초 간격
+  // }, [backendDomain, setReissueResponse]);
 
-  useEffect(() => {
-    // 로그인 상태가 true일 때만 polling 시작
-    if (isLoggedIn) {
-      startPolling();
-    }
-  }, [isLoggedIn, startPolling]);
+  // useEffect(() => {
+  //   // 컴포넌트 로드 시 로그인 상태 확인
+  //   checkLoginStatus();
+  // }, [checkLoginStatus]);
+
+  // useEffect(() => {
+  //   // 로그인 상태가 true일 때만 polling 시작
+  //   if (isLoggedIn) {
+  //     startPolling();
+  //   }
+  // }, [isLoggedIn, startPolling]);
 
   return (
     <div className="flex items-center v-screen w-full">

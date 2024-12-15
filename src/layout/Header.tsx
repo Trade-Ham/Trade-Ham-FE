@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { IoPersonOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationCount] = useState(202); // 알림 개수
+  const navigate = useNavigate();
 
   const handleProfileClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -15,8 +17,7 @@ const Header = () => {
   };
 
   const handleProfileManagement = () => {
-    console.log("Managing profile...");
-    // 프로필 관리 로직 추가
+    navigate("/profile");
   };
 
   return (
@@ -53,7 +54,7 @@ const Header = () => {
               onClick={handleProfileManagement}
               className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
-              프로필 관리
+              마이 페이지
             </button>
             <button
               onClick={handleLogout}
